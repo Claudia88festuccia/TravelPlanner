@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^5.3.6",
+    "date-fns": "^4.1.0",
     "react": "^19.1.0",
+    "react-big-calendar": "^1.19.2",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",

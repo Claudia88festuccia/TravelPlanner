@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import CalendarView from "./CalendarView";
+
 
 export default function TripList({ trips, onTripsUpdated }) {
   const [editingTripId, setEditingTripId] = useState(null);
@@ -31,6 +33,9 @@ export default function TripList({ trips, onTripsUpdated }) {
       title: trip.title,
       destination: trip.destination,
       notes: trip.notes,
+      startDate: trip.startDate?.substring(0, 10),
+      endDate: trip.endDate?.substring(0, 10),
+
     });
   };
 
@@ -172,10 +177,19 @@ export default function TripList({ trips, onTripsUpdated }) {
 
   const handleAddItineraryActivity = (tripId, dayIndex, activity) => {
     setItineraryState((prev) => {
-      const tripItinerary = prev[tripId] || [...(trips.find((t) => t._id === tripId)?.itinerary || [])];
-      const updated = [...tripItinerary];
+      const originalItinerary = prev[tripId] || trips.find((t) => t._id === tripId)?.itinerary || [];
 
-      if (!updated[dayIndex]) updated[dayIndex] = { day: dayIndex + 1, activities: [] };
+      const tripItinerary = originalItinerary.map(day =>
+      ({
+        ...day,
+        activities: [...day.activities]
+      })
+      );
+      const updated = [...tripItinerary];
+      if (!updated[dayIndex]) {
+        updated[dayIndex] = { day: dayIndex + 1, activities: [] };
+      }
+
       updated[dayIndex].activities.push(activity);
 
       return { ...prev, [tripId]: updated };
@@ -184,13 +198,22 @@ export default function TripList({ trips, onTripsUpdated }) {
 
   const handleRemoveItineraryActivity = (tripId, dayIndex, activityIndex) => {
     setItineraryState((prev) => {
-      const updated = [...(prev[tripId] || [])];
-      if (updated[dayIndex]) {
+
+      const originalItinerary = prev[tripId] || [];
+
+      const updated = originalItinerary.map(day => ({
+        ...day,
+        activities: [...day.activities],
+      }));
+
+      if (updated[dayIndex] && updated[dayIndex].activities) {
         updated[dayIndex].activities.splice(activityIndex, 1);
       }
+
       return { ...prev, [tripId]: updated };
     });
   };
+
 
   const handleUpdateItinerary = async (tripId) => {
     const updatedItinerary = itineraryState[tripId];
@@ -233,37 +256,60 @@ export default function TripList({ trips, onTripsUpdated }) {
 
 
   return (
-    <div className="row">
+    <div className="row row-cols-1 row-cols-md-2 g-4">
       {trips.map((trip) => (
-        <div key={trip._id} className="col-md-4 mb-4">
-          <div className="card shadow-sm h-100">
+        <div key={trip._id} className="col">
+          <div className="card h-100 shadow-sm p-3">
             <div className="card-body">
               {editingTripId === trip._id ? (
                 <>
                   <input
                     className="form-control mb-2"
                     name="title"
+                    placeholder="Titolo"
                     value={editData.title}
                     onChange={handleEditChange}
                   />
                   <input
                     className="form-control mb-2"
                     name="destination"
+                    placeholder="Destinazione"
                     value={editData.destination}
                     onChange={handleEditChange}
                   />
                   <textarea
                     className="form-control mb-2"
                     name="notes"
+                    placeholder="Note"
                     value={editData.notes}
                     onChange={handleEditChange}
                   />
-                  <button className="btn btn-primary btn-sm me-2" onClick={() => handleEditSubmit(trip._id)}>
-                    Salva
-                  </button>
-                  <button className="btn btn-secondary btn-sm" onClick={() => setEditingTripId(null)}>
-                    Annulla
-                  </button>
+                  <label className="form-label mt-2">Data Inizio</label>
+                  <input
+                    type="date"
+                    className="form-control mb-2"
+                    name="startDate"
+                    value={editData.startDate}
+                    onChange={handleEditChange}
+                  />
+                  <label className="form-label">Data Fine</label>
+                  <input
+                    type="date"
+                    className="form-control mb-2"
+                    name="endDate"
+                    value={editData.endDate}
+                    onChange={handleEditChange}
+                  />
+                  <div className="d-flex gap-2">
+                    <button className="btn btn-primary btn-sm" onClick={() => handleEditSubmit(trip._id)}>
+                      💾 Salva
+                    </button>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setEditingTripId(null)}>
+                      ❌ Annulla
+                    </button>
+                  </div>
+
+
                 </>
               ) : (
                 <>
@@ -327,6 +373,11 @@ export default function TripList({ trips, onTripsUpdated }) {
                     </div>
                   )}
 
+                  <div className="mt-3 mb-2">
+                    <strong>Itinerario:</strong>
+                  </div>
+
+
                   {((itineraryState[trip._id] && itineraryState[trip._id].length > 0)
                     ? itineraryState[trip._id]
                     : (trip.itinerary && trip.itinerary.length > 0)
@@ -375,19 +426,16 @@ export default function TripList({ trips, onTripsUpdated }) {
                       </form>
                     </div>
                   ))}
-                  <button
-                    className="btn btn-sm btn-outline-secondary mt-2"
-                    onClick={() => handleAddNewDay(trip._id)}
-                  >
-                    ➕ Aggiungi Giorno
-                  </button>
-
-                  <button
-                    className="btn btn-sm btn-outline-success mt-2"
-                    onClick={() => handleUpdateItinerary(trip._id)}
-                  >
-                    💾 Salva Itinerario
-                  </button>
+                  <div className="mt-3">
+                    <div className="d-flex flex-wrap gap-2 mb-2">
+                      <button className="btn btn-outline-secondary btn-sm" onClick={() => handleAddNewDay(trip._id)}>
+                        ➕ Aggiungi Giorno
+                      </button>
+                      <button className="btn btn-outline-success btn-sm" onClick={() => handleUpdateItinerary(trip._id)}>
+                        💾 Salva Itinerario
+                      </button>
+                    </div>
+                  </div>
 
 
                   {trip.documents && trip.documents.length > 0 && (
@@ -420,12 +468,14 @@ export default function TripList({ trips, onTripsUpdated }) {
                   )}
 
 
-                  <button className="btn btn-outline-primary btn-sm me-2" onClick={() => handleEditClick(trip)}>
-                    ✏️ Modifica
-                  </button>
-                  <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(trip._id)}>
-                    🗑️ Elimina
-                  </button>
+                  <div className="d-flex flex-wrap gap-2">
+                    <button className="btn btn-outline-primary btn-sm" onClick={() => handleEditClick(trip)}>
+                      ✏️ Modifica Viaggio
+                    </button>
+                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(trip._id)}>
+                      🗑️ Elimina Viaggio
+                    </button>
+                  </div>
 
 
                   <input
@@ -437,6 +487,12 @@ export default function TripList({ trips, onTripsUpdated }) {
 
                 </>
               )}
+              {trips.length > 0 && (
+                <div className="col-12">
+                  <CalendarView trips={trips} />
+                </div>
+              )}
+
             </div>
           </div>
         </div>
