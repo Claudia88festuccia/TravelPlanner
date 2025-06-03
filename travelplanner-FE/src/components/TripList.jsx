@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import CalendarView from "./CalendarView";
+import MapView from "./MapView";
+
 
 
 export default function TripList({ trips, onTripsUpdated }) {
@@ -325,6 +327,12 @@ export default function TripList({ trips, onTripsUpdated }) {
                     <br />
                     {trip.notes}
                   </p>
+                  {trip.destination && (
+                    <div className="mt-3">
+                      <MapView destination={trip.destination} />
+                    </div>
+                  )}
+
 
                   {/* Checklist */}
                   {trip.checklist && (
