@@ -2,8 +2,20 @@ import express from "express";
 import Trip from "../models/Trip.js";
 import authenticateToken from "../middleware/authMiddleware.js";
 import cloudinaryUploader from "../utils/cloudinary.js";
+import sendTripReminder from '../utils/sendTripReminder.js';
 
 const router = express.Router();
+
+//  Rotta di test invio email
+router.get('/test-notifica', async (req, res) => {
+  try {
+    await sendTripReminder();
+    res.status(200).send('✅ Email di test inviata (se ci sono viaggi tra 3 giorni)');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('❌ Errore durante l’invio');
+  }
+});
 
 // GET /trips
 // Restituisce tutti i viaggi dell'utente autenticato
@@ -146,6 +158,9 @@ router.get("/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Errore nel recupero del viaggio" });
   }
 });
+
+
+
 
 
 

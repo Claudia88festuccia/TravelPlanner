@@ -5,6 +5,7 @@ import connectDB from "./db.js";
 import loginRouter from "./routes/login.js";
 import usersRouter from "./routes/users.js";
 import tripsRouter from "./routes/trips.js";
+import './jobs/notificationJob.js';
 
 
 dotenv.config();
@@ -16,8 +17,10 @@ app.use("/login", loginRouter);
 app.use("/users", usersRouter);
 app.use("/trips", tripsRouter);
 
+
+
 connectDB().then(() => {
   app.listen(process.env.PORT || 3001, () => {
     console.log("Server avviato sulla porta", process.env.PORT || 3001);
+    });
   });
-});

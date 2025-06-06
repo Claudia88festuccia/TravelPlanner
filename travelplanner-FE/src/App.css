@@ -1,0 +1,14 @@
+ @media (max-width: 576px) {
+  .btn-sm {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  input, textarea {
+    font-size: 1rem;
+  }
+
+  ul {
+    padding-left: 1rem;
+  }
+}
