@@ -17,7 +17,7 @@ export default function TripList({ trips, onTripsUpdated }) {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/trips/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/trips/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -49,7 +49,7 @@ export default function TripList({ trips, onTripsUpdated }) {
 
   const handleEditSubmit = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/trips/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/trips/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     formData.append("document", e.target.files[0]);
 
     try {
-      const res = await fetch(`http://localhost:3001/trips/${tripId}/upload`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}/upload`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -93,7 +93,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:3001/trips/${tripId}/documents`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}/documents`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     ];
 
     try {
-      await fetch(`http://localhost:3001/trips/${tripId}/checklist`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}/checklist`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     updatedChecklist.splice(index, 1);
 
     try {
-      await fetch(`http://localhost:3001/trips/${tripId}/checklist`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}/checklist`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +165,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     updatedChecklist[index].done = newValue;
 
     try {
-      await fetch(`http://localhost:3001/trips/${tripId}/checklist`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}/checklist`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -222,7 +222,7 @@ export default function TripList({ trips, onTripsUpdated }) {
   const handleUpdateItinerary = async (tripId) => {
     const updatedItinerary = itineraryState[tripId];
     try {
-      const res = await fetch(`http://localhost:3001/trips/${tripId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/trips/${tripId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

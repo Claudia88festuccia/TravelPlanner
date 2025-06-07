@@ -18,7 +18,7 @@ export default function AddTripForm({ onTripAdded }) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:3001/trips", {
+      const res = await fetch((`${process.env.REACT_APP_API_URL}/trips`), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
