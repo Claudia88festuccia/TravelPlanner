@@ -20,7 +20,7 @@ const TripSchema = new mongoose.Schema({
 ],
 
   itinerary: [ItineraryDaySchema],
-  documents: [String],     // array di URL Cloudinary
+  documents: [String],     
   createdAt: { type: Date, default: Date.now },
 });
 

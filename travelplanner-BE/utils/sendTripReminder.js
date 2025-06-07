@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import sgMail from '@sendgrid/mail';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
@@ -6,15 +9,29 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendTripReminder = async () => {
   const today = new Date();
-  const in3Days = new Date(today);
-  in3Days.setDate(today.getDate() + 3);
+  const in2Days = new Date(today);
+  in2Days.setDate(today.getDate() + 2);
 
   const trips = await Trip.find({
     startDate: {
-      $gte: in3Days.toISOString().slice(0, 10),
-      $lte: new Date(in3Days.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      $gte: new Date(in2Days.setHours(0, 0, 0, 0)),
+      $lt: new Date(in2Days.setHours(23, 59, 59, 999)),
     },
   }).populate('user');
+
+  // console.log("📬 Viaggi trovati:", trips.map(t => ({
+  //   user: t.user?.email,
+  //   title: t.title,
+  //   start: t.startDate
+  // })));
+
+//   const allTrips = await Trip.find().populate('user');
+// console.log("📋 Tutti i viaggi:", allTrips.map(t => ({
+//   title: t.title,
+//   email: t.user?.email,
+//   start: t.startDate
+// })));
+
 
   for (const trip of trips) {
     if (!trip.user || !trip.user.email) continue;

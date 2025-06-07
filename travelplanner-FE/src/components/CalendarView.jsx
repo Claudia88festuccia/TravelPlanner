@@ -23,7 +23,7 @@ export default function CalendarView({ trips }) {
   const [view, setView] = useState('month');
   const [date, setDate] = useState(new Date());
 
-  // 🎯 Mappiamo solo l'ID nel resource
+
   const events = trips.map((trip) => ({
     title: trip.title,
     start: parseISO(trip.startDate),
@@ -32,7 +32,7 @@ export default function CalendarView({ trips }) {
     resource: trip._id,
   }));
 
-  // ✅ Recuperiamo il trip giusto dall'ID
+  
   const handleSelectEvent = (event) => {
     const selectedId = event.resource;
     const matchedTrip = trips.find((t) => t._id === selectedId);

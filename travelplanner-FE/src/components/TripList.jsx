@@ -251,7 +251,7 @@ export default function TripList({ trips, onTripsUpdated }) {
     setItineraryState((prev) => {
       const updated = [...(prev[tripId] || trips.find(t => t._id === tripId)?.itinerary || [])];
       updated.splice(dayIndex, 1);
-      // Riassegna i numeri dei giorni
+      
       const reindexed = updated.map((day, i) => ({ ...day, day: i + 1 }));
       return { ...prev, [tripId]: reindexed };
     });

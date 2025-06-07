@@ -3,9 +3,15 @@ dotenv.config();
 
 import cron from 'node-cron';
 import sendTripReminder from '../utils/sendTripReminder.js';
+import connectDB from '../db.js'; 
 
-// Avvia ogni giorno alle 8:00 di mattina
-cron.schedule('0 8 * * *', async () => {
-  console.log('🔔 Controllo viaggi in partenza tra 2 giorni...');
-  await sendTripReminder();
+
+connectDB().then(() => {
+  console.log("✅ Job connesso a MongoDB");
+
+  cron.schedule('* * * * *', async () => {
+    console.log('🔔 Esecuzione job promemoria viaggi');
+    await sendTripReminder();
+  });
 });
+

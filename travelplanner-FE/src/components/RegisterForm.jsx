@@ -33,7 +33,7 @@ const RegisterForm = () => {
       const data = await res.json();
       alert("Registrazione avvenuta con successo!");
 
-      // Dopo la registrazione, naviga al login
+      
       navigate("/login");
     } catch (err) {
       console.error("Errore registrazione:", err);

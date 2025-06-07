@@ -5,7 +5,7 @@ import connectDB from "./db.js";
 import loginRouter from "./routes/login.js";
 import usersRouter from "./routes/users.js";
 import tripsRouter from "./routes/trips.js";
-import './jobs/notificationJob.js';
+
 
 
 dotenv.config();

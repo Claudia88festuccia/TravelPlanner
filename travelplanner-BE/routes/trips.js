@@ -99,7 +99,7 @@ router.post("/:id/upload", authenticateToken, cloudinaryUploader.single("documen
 
     if (!trip) return res.status(404).json({ error: "Viaggio non trovato" });
 
-    trip.documents.push(req.file.path); // URL Cloudinary
+    trip.documents.push(req.file.path); 
     await trip.save();
 
     res.status(200).json(trip);
