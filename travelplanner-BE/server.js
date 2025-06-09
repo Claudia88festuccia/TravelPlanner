@@ -12,15 +12,22 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://travel-planner-fe-silk.vercel.app"
-  ],
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "https://travel-planner-fe-silk.vercel.app",
+    ];
+    if (!origin || allowedOrigins.includes(origin) || origin.includes(".vercel.app")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,POST,PUT,DELETE,PATCH",
   allowedHeaders: "Content-Type, Authorization",
 };
-
 app.use(cors(corsOptions));
+
 
 app.use(express.json());
 app.use("/login", loginRouter);

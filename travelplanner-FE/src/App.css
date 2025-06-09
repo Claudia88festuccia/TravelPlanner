@@ -11,4 +11,12 @@
   ul {
     padding-left: 1rem;
   }
+
+  .rbc-calendar {
+    font-size: 12px;
+  }
+
+  .rbc-event {
+    white-space: normal !important;
+  }
 }

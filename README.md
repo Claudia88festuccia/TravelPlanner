@@ -1,46 +1,56 @@
-# TravelPlanner – App
+ # ✈️ TravelPlanner – App Fullstack per Viaggiatori
 
-TravelPlanner è un'applicazione completa per organizzare viaggi personali con itinerari, checklist e caricamento immagini.
+[![React](https://img.shields.io/badge/frontend-React-blue?logo=react)](https://reactjs.org)
+[![Node.js](https://img.shields.io/badge/backend-Express-green?logo=node.js)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/database-MongoDB-brightgreen?logo=mongodb)](https://mongodb.com)
+[![SendGrid](https://img.shields.io/badge/email-SendGrid-blue)](https://sendgrid.com)
+[![Status](https://img.shields.io/badge/status-Online-brightgreen)](https://travel-planner-fe-silk.vercel.app/)
 
-# Struttura
+---
 
-- `travelplanner-BE/` – Backend (Express, MongoDB, JWT, Cloudinary)
-- `travelplanner-FE/` – Frontend React con dashboard, login, registrazione
+## 🌍 Descrizione
 
-# Avvio Locale
+**TravelPlanner** è un'applicazione web fullstack per organizzare e pianificare i propri viaggi:
 
-# Backend
+- ✏️ Crea viaggi personalizzati
+- 📅 Visualizza gli itinerari su calendario
+- 📍 Mostra la destinazione su mappa (Google Maps)
+- ✅ Gestisci checklist di viaggio
+- 📬 Ricevi **notifiche automatiche via email** (2 giorni prima della partenza)
+- 📸 Carica foto e documenti di viaggio (opzionale con Cloudinary)
+
+---
+
+## 🔧 Tech Stack
+
+### Frontend
+- React
+- React Router
+- Bootstrap / CSS
+- Google Maps API
+
+### Backend
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT Auth 
+- SendGrid + `node-cron` per email automatiche
+
+---
+
+## 🚀 Demo online
+
+- 🔗 **Frontend (React + Vercel)**  
+  [https://travel-planner-fe-silk.vercel.app/](https://travel-planner-fe-silk.vercel.app/)
+
+- 🔗 **Backend (Express + Render)**  
+  [https://travelplanner-be.onrender.com](https://travelplanner-be.onrender.com)
+
+
+
+## 🛠️ Setup locale
+
+### 1. Clona il progetto
 
 ```bash
-cd travelplanner-BE
-npm install
-npm run dev
-```
-Crea un file `.env` con:
-
-```
-PORT=3001
-MONGO_URL=mongodb+srv://<utente>:<password>@<cluster>.mongodb.net/travelplanner
-JWT_SECRET=travelsecret
-CLOUDINARY_NAME=xxx
-CLOUDINARY_KEY=xxx
-CLOUDINARY_KEY_SECRET=xxx
-```
-
-# Frontend
-
-```bash
-cd travelplanner-FE
-npm install
-npm start
-```
-
-# Deploy
-- Backend su **Render** (Node)
-- Frontend su **Vercel** (React)
-
-# Funzionalità
-- Registrazione/Login con JWT
-- Dashboard viaggi personali
-- Checklist + Itinerario per viaggio
-- Upload immagini/documenti via Cloudinary
+git clone https://github.com/Claudia88festuccia/travelplanner-BE.git
+git clone https://github.com/Claudia88festuccia/TravelPlanner-FE.git
